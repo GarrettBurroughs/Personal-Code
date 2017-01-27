@@ -1,0 +1,17 @@
+OS map/plan
+
+Main
+	-Startup
+		-welcome screen
+		-Check for updates
+		-login
+	-desktop
+		-setup any files
+		-launch applications
+		-connect to "internet"
+		-access settings
+			-New User
+			-Change Password
+		-access files
+		-install applications
+		-change user
