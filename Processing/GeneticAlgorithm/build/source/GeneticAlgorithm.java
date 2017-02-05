@@ -15,12 +15,17 @@ import java.io.IOException;
 public class GeneticAlgorithm extends PApplet {
 
 Bot bot;
+Obstacle[] obstacles;
+
 
 public void setup(){
   
   bot = new Bot();
   bot.newBot();
-  println(bot.DNA);
+  obstacles = new Obstacle[10];
+  for (int i = 0; i < obstacles.length; i++){
+    obstacles[i] = new Obstacle(floor(random(width)), floor(random(height/4)));
+  }
 }
 
 int x = 0;
@@ -29,10 +34,9 @@ public void draw(){
   bot.show();
   bot.physics();
   bot.move();
-}
-
-public void mouseClicked(){
-
+  for (int i = 0; i < obstacles.length; i++){
+    obstacles[i].show();
+  }
 }
 class Bot{
   float x = 10.0f;
@@ -93,6 +97,20 @@ class Bot{
     else{
       gravity = 0.2f;
     }
+  }
+}
+class Obstacle{
+  int x;
+  int tallness;
+
+  public void show(){
+    rect(x, height - tallness, 10, tallness);
+  }
+
+  public Obstacle(int x, int tallness){
+    this.x = x;
+    this.tallness = tallness;
+
   }
 }
   public void settings() {  size(1280,720); }
