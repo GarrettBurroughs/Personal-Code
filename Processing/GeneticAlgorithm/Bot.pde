@@ -9,7 +9,7 @@ class Bot{
   float velocity = 1.0f;
   float gravity = 0.2f;
   int state = 0;
-  float energy = 1000;
+  float energy = 200;
   int fitness;
   boolean collided = false;
 
@@ -30,11 +30,11 @@ class Bot{
   }
 
   int fitness(){
-    fitness = int(x + energy);
+    fitness = int((energy / 2) + (2 * x));
     return fitness;
   }
   void jump(float amount){
-    if(energy >= amount){
+    if(energy >= amount * 10){
       velocity = amount;
       energy = energy - (amount * 10);
     }

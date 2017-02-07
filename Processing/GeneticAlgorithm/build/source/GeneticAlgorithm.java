@@ -16,9 +16,11 @@ public class GeneticAlgorithm extends PApplet {
 
 Bot[] bots;
 Obstacle[] obstacles;
+boolean finished;
 
 public void setup(){
   
+  finished = false;
   bots = new Bot[10];
   obstacles = new Obstacle[10];
 
@@ -28,7 +30,7 @@ public void setup(){
   }
 
   for (int i = 0; i < obstacles.length; i++){
-    obstacles[i] = new Obstacle(floor(random(width)), floor(random(height/4)));
+    obstacles[i] = new Obstacle(floor(random(width - width/10) + width/10), floor(random(height/4)));
   }
 
 }
@@ -40,14 +42,28 @@ public void draw(){
     bots[i].show();
     bots[i].physics();
     bots[i].move();
+    bots[i].fitness();
     for (int j = 0; j < obstacles.length; j++){
-      if(bots[i].x + bots[i].scl > obstacles[j].x && bots[i].x < obstacles[j].x + 10 && bots[i].y > height - obstacles[j].tallness){
+      if(bots[i].x + bots[i].scl > obstacles[j].x && bots[i].x < obstacles[j].x + 10 && bots[i].y + bots[i].scl > height - obstacles[j].tallness){
         bots[i].collided = true;
       }
     }
   }
   for (int i = 0; i < obstacles.length; i++){
     obstacles[i].show();
+  }
+  finished = true;
+  for(int i = 0; i < bots.length; i++){
+    if(!bots[i].collided){
+      finished = false;
+    }
+  }
+  if (finished){
+    println("finished");
+    for(int i = 0; i < bots.length; i++){
+      println(bots[i].fitness);
+    }
+    frameRate(0);
   }
 }
 class Bot{
@@ -61,7 +77,7 @@ class Bot{
   float velocity = 1.0f;
   float gravity = 0.2f;
   int state = 0;
-  float energy = 1000;
+  float energy = 200;
   int fitness;
   boolean collided = false;
 
@@ -82,11 +98,11 @@ class Bot{
   }
 
   public int fitness(){
-    fitness = PApplet.parseInt(x + energy);
+    fitness = PApplet.parseInt(10 * x * x + x * energy);
     return fitness;
   }
   public void jump(float amount){
-    if(energy >= amount){
+    if(energy >= amount * 10){
       velocity = amount;
       energy = energy - (amount * 10);
     }

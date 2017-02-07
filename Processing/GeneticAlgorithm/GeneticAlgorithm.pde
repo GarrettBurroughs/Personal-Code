@@ -14,7 +14,7 @@ void setup(){
   }
 
   for (int i = 0; i < obstacles.length; i++){
-    obstacles[i] = new Obstacle(floor(random(width)), floor(random(height/4)));
+    obstacles[i] = new Obstacle(floor(random(width - width/10) + width/10), floor(random(height/4)));
   }
 
 }
@@ -26,13 +26,27 @@ void draw(){
     bots[i].show();
     bots[i].physics();
     bots[i].move();
+    bots[i].fitness();
     for (int j = 0; j < obstacles.length; j++){
-      if(bots[i].x + bots[i].scl > obstacles[j].x && bots[i].x < obstacles[j].x + 10 && bots[i].y > height - obstacles[j].tallness){
+      if(bots[i].x + bots[i].scl > obstacles[j].x && bots[i].x < obstacles[j].x + 10 && bots[i].y + bots[i].scl > height - obstacles[j].tallness){
         bots[i].collided = true;
       }
     }
   }
   for (int i = 0; i < obstacles.length; i++){
     obstacles[i].show();
+  }
+  finished = true;
+  for(int i = 0; i < bots.length; i++){
+    if(!bots[i].collided){
+      finished = false;
+    }
+  }
+  if (finished){
+    println("finished");
+    for(int i = 0; i < bots.length; i++){
+      println(bots[i].fitness);
+    }
+    frameRate(0);
   }
 }
