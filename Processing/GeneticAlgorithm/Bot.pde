@@ -9,16 +9,20 @@ class Bot{
   float velocity = 1.0f;
   float gravity = 0.2f;
   int state = 0;
-  float energy = 500;
+  float energy = 1000;
 
-  float[] DNA = new float[10];
+  float[] DNA = new float[100];
 
   void newBot(float[] DNA){
 
   }
   void newBot(){
     for(int i = 0; i < DNA.length; i++){
-      DNA[i] = random(3);
+      int val = floor(random(200));
+      if(val > 20){
+        val = 0;
+      }
+      DNA[i] = val/2;
     }
   }
 

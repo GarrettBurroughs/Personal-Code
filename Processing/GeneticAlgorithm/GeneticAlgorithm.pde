@@ -15,6 +15,7 @@ void setup(){
 int x = 0;
 void draw(){
   background(0);
+  println(bot.DNA);
   bot.show();
   bot.physics();
   bot.move();

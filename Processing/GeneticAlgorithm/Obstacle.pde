@@ -9,6 +9,5 @@ class Obstacle{
   public Obstacle(int x, int tallness){
     this.x = x;
     this.tallness = tallness;
-
   }
 }

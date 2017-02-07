@@ -31,6 +31,7 @@ public void setup(){
 int x = 0;
 public void draw(){
   background(0);
+  println(bot.DNA);
   bot.show();
   bot.physics();
   bot.move();
@@ -49,16 +50,20 @@ class Bot{
   float velocity = 1.0f;
   float gravity = 0.2f;
   int state = 0;
-  float energy = 500;
+  float energy = 1000;
 
-  float[] DNA = new float[10];
+  float[] DNA = new float[100];
 
   public void newBot(float[] DNA){
 
   }
   public void newBot(){
     for(int i = 0; i < DNA.length; i++){
-      DNA[i] = random(3);
+      int val = floor(random(200));
+      if(val > 20){
+        val = 0;
+      }
+      DNA[i] = val/2;
     }
   }
 
@@ -110,7 +115,6 @@ class Obstacle{
   public Obstacle(int x, int tallness){
     this.x = x;
     this.tallness = tallness;
-
   }
 }
   public void settings() {  size(1280,720); }
