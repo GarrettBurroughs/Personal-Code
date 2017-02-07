@@ -14,27 +14,38 @@ import java.io.IOException;
 
 public class GeneticAlgorithm extends PApplet {
 
-Bot bot;
+Bot[] bots;
 Obstacle[] obstacles;
-
 
 public void setup(){
   
-  bot = new Bot();
-  bot.newBot();
+  bots = new Bot[10];
   obstacles = new Obstacle[10];
+
+  for (int i = 0; i < bots.length; i++){
+    bots[i] = new Bot();
+    bots[i].newBot();
+  }
+
   for (int i = 0; i < obstacles.length; i++){
     obstacles[i] = new Obstacle(floor(random(width)), floor(random(height/4)));
   }
+
 }
 
 int x = 0;
 public void draw(){
   background(0);
-  println(bot.DNA);
-  bot.show();
-  bot.physics();
-  bot.move();
+  for (int i = 0; i < bots.length; i++){
+    bots[i].show();
+    bots[i].physics();
+    bots[i].move();
+    for (int j = 0; j < obstacles.length; j++){
+      if(bots[i].x + bots[i].scl > obstacles[j].x && bots[i].x < obstacles[j].x + 10 && bots[i].y > height - obstacles[j].tallness){
+        bots[i].collided = true;
+      }
+    }
+  }
   for (int i = 0; i < obstacles.length; i++){
     obstacles[i].show();
   }
@@ -51,12 +62,15 @@ class Bot{
   float gravity = 0.2f;
   int state = 0;
   float energy = 1000;
+  int fitness;
+  boolean collided = false;
 
   float[] DNA = new float[100];
 
   public void newBot(float[] DNA){
 
   }
+
   public void newBot(){
     for(int i = 0; i < DNA.length; i++){
       int val = floor(random(200));
@@ -67,6 +81,10 @@ class Bot{
     }
   }
 
+  public int fitness(){
+    fitness = PApplet.parseInt(x + energy);
+    return fitness;
+  }
   public void jump(float amount){
     if(energy >= amount){
       velocity = amount;
@@ -75,7 +93,7 @@ class Bot{
   }
 
   public void move(){
-    if(state < DNA.length - 1 && y == height - 10){
+    if(state < DNA.length - 1 && y == height - 10 && !collided){
       jump(DNA[state]);
       state++;
     }
@@ -87,7 +105,9 @@ class Bot{
 
   //Basic physics engine for allowing the bots to navigate and move a 2D space
   public void physics(){
-    x = x + xSpeed;
+    if(!collided){
+      x = x + xSpeed;
+    }
     y = y - ySpeed;
     ySpeed = ySpeed + velocity;
     velocity = velocity - gravity;

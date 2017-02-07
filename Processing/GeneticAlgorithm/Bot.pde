@@ -10,12 +10,15 @@ class Bot{
   float gravity = 0.2f;
   int state = 0;
   float energy = 1000;
+  int fitness;
+  boolean collided = false;
 
   float[] DNA = new float[100];
 
   void newBot(float[] DNA){
 
   }
+
   void newBot(){
     for(int i = 0; i < DNA.length; i++){
       int val = floor(random(200));
@@ -26,6 +29,10 @@ class Bot{
     }
   }
 
+  int fitness(){
+    fitness = int(x + energy);
+    return fitness;
+  }
   void jump(float amount){
     if(energy >= amount){
       velocity = amount;
@@ -34,7 +41,7 @@ class Bot{
   }
 
   void move(){
-    if(state < DNA.length - 1 && y == height - 10){
+    if(state < DNA.length - 1 && y == height - 10 && !collided){
       jump(DNA[state]);
       state++;
     }
@@ -46,7 +53,9 @@ class Bot{
 
   //Basic physics engine for allowing the bots to navigate and move a 2D space
   void physics(){
-    x = x + xSpeed;
+    if(!collided){
+      x = x + xSpeed;
+    }
     y = y - ySpeed;
     ySpeed = ySpeed + velocity;
     velocity = velocity - gravity;
