@@ -3,8 +3,8 @@ int scl;
 boolean done = false;
 
 void setup(){
-  size(600, 400);
-  items = new int[300];
+  size(1200, 800);
+  items = new int[600];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){
     items[i] = items.length - i;

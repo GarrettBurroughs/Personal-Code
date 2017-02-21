@@ -21,7 +21,7 @@ boolean done = false;
 
 public void setup(){
   
-  items = new int[300];
+  items = new int[600];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){
     items[i] = items.length - i;
@@ -64,7 +64,7 @@ public void shuffle(int[] array){
     swap(array, i, floor(random(array.length - 1)));
   }
 }
-  public void settings() {  size(600, 400); }
+  public void settings() {  size(1200, 800); }
   static public void main(String[] passedArgs) {
     String[] appletArgs = new String[] { "SelectionSort" };
     if (passedArgs != null) {

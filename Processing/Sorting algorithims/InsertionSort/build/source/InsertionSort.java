@@ -12,15 +12,16 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class BubbleSort extends PApplet {
+public class InsertionSort extends PApplet {
 
 int[] items;
 int scl;
 boolean done = false;
+int i = 1;
 
 public void setup(){
   
-  items = new int[600];
+  items = new int[300];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){
     items[i] = items.length - i;
@@ -30,21 +31,22 @@ public void setup(){
 
 public void draw(){
   noStroke();
-  boolean done = true;
   background(0);
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  for(int i = 0; i < items.length - 1; i++){
-    if(items[i] > items[i + 1]){
-      swap(items, i, i + 1);
-      done = false;
-    }
+  int j = i;
+  while(j> 0 && items[j - 1] > items[j]){
+    swap(items, j, j - 1);
+    j = j - 1;
   }
-  if(done){
+  if(i < items.length - 1){
+    i++;
+  }else{
     fill(0, 255, 0);
   }
 }
+
 
 public void swap(int[] array, int a, int b){
   int temp = array[a];
@@ -57,9 +59,9 @@ public void shuffle(int[] array){
     swap(array, i, floor(random(array.length - 1)));
   }
 }
-  public void settings() {  size(1200, 800); }
+  public void settings() {  size(600, 400); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "BubbleSort" };
+    String[] appletArgs = new String[] { "InsertionSort" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
