@@ -17,6 +17,7 @@ public class GeneticAlgorithm extends PApplet {
 Bot[] bots;
 Obstacle[] obstacles;
 boolean finished;
+ArrayList<Bot> matingPool = new ArrayList<Bot>();
 
 public void setup(){
   
@@ -58,47 +59,66 @@ public void draw(){
       finished = false;
     }
   }
-  if (finished){
-    println("finished");
-    for(int i = 0; i < bots.length; i++){
-      println(bots[i].fitness);
+  if(finished){
+    for (int i = 0; i < bots.length; i++){
+      for (int j = 0; j < bots[i].fitness; j++){
+        matingPool.add(bots[i]);
+      }
     }
-    frameRate(0);
+    float[][] newDna = new float[100][2];
+    Bot parent1 = matingPool.get(floor(random(matingPool.size())));
+    Bot parent2 = matingPool.get(floor(random(matingPool.size())));
+    newDna = parent1.DNA;
+    int splitpoint = floor(random(100));
+    for(int i = 0; i < splitpoint; i++){
+      newDna[i] = parent2.DNA[i];
+    }
+    for(int i = 0; i < bots.length; i++){
+      bots[i].newBot(newDna);
+      println(bots[i].collided);
+    }
+    matingPool.clear();
+    finished = false;
+    println("Restarting");
+    println(finished);
   }
 }
 class Bot{
   float x = 10.0f;
   float y = height - 10;
   int scl = 10;
-  int[] brain = {0, 0, 1, 0, 0, 1};
-  int step = 0;
   float xSpeed = 2.0f;
   float ySpeed = 0.0f;
   float velocity = 1.0f;
   float gravity = 0.2f;
-  int state = 0;
   float energy = 200;
   int fitness;
+  int state = 0;
   boolean collided = false;
+  int wait;
 
-  float[] DNA = new float[100];
+  float[][] DNA = new float[100][2];
 
-  public void newBot(float[] DNA){
-
+  public void newBot(float[][] DNA){
+    x = 10.0f;
+    y = height - 10;
+    xSpeed = 2.0f;
+    ySpeed = 0.0f;
+    energy = 200;
+    collided = false;
+    this.DNA = DNA;
   }
 
   public void newBot(){
     for(int i = 0; i < DNA.length; i++){
-      int val = floor(random(200));
-      if(val > 20){
-        val = 0;
-      }
-      DNA[i] = val/2;
+      int val = floor(random(20)) + 1;
+      DNA[i][0] = val/2;
+      DNA[i][1] = floor(random(20));
     }
   }
 
   public int fitness(){
-    fitness = PApplet.parseInt(10 * x * x + x * energy);
+    fitness = PApplet.parseInt(2 * x);
     return fitness;
   }
   public void jump(float amount){
@@ -109,9 +129,11 @@ class Bot{
   }
 
   public void move(){
-    if(state < DNA.length - 1 && y == height - 10 && !collided){
-      jump(DNA[state]);
+    if(state < DNA.length - 1 && y == height - 10 && !collided && wait <= 0){
+      jump(DNA[state][0]);
       state++;
+    }else{
+      wait = wait - 1;
     }
   }
 

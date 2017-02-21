@@ -2,35 +2,38 @@ class Bot{
   float x = 10.0f;
   float y = height - 10;
   int scl = 10;
-  int[] brain = {0, 0, 1, 0, 0, 1};
-  int step = 0;
   float xSpeed = 2.0f;
   float ySpeed = 0.0f;
   float velocity = 1.0f;
   float gravity = 0.2f;
-  int state = 0;
   float energy = 200;
   int fitness;
+  int state = 0;
   boolean collided = false;
+  int wait;
 
-  float[] DNA = new float[100];
+  float[][] DNA = new float[100][2];
 
-  void newBot(float[] DNA){
-
+  void newBot(float[][] DNA){
+    x = 10.0f;
+    y = height - 10;
+    xSpeed = 2.0f;
+    ySpeed = 0.0f;
+    energy = 200;
+    collided = false;
+    this.DNA = DNA;
   }
 
   void newBot(){
     for(int i = 0; i < DNA.length; i++){
-      int val = floor(random(200));
-      if(val > 20){
-        val = 0;
-      }
-      DNA[i] = val/2;
+      int val = floor(random(20)) + 1;
+      DNA[i][0] = val/2;
+      DNA[i][1] = floor(random(20));
     }
   }
 
   int fitness(){
-    fitness = int((energy / 2) + (2 * x));
+    fitness = int(2 * x);
     return fitness;
   }
   void jump(float amount){
@@ -41,9 +44,11 @@ class Bot{
   }
 
   void move(){
-    if(state < DNA.length - 1 && y == height - 10 && !collided){
-      jump(DNA[state]);
+    if(state < DNA.length - 1 && y == height - 10 && !collided && wait <= 0){
+      jump(DNA[state][0]);
       state++;
+    }else{
+      wait = wait - 1;
     }
   }
 

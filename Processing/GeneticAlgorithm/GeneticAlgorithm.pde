@@ -1,6 +1,7 @@
 Bot[] bots;
 Obstacle[] obstacles;
 boolean finished;
+ArrayList<Bot> matingPool = new ArrayList<Bot>();
 
 void setup(){
   size(1280,720);
@@ -42,11 +43,25 @@ void draw(){
       finished = false;
     }
   }
-  if (finished){
-    println("finished");
-    for(int i = 0; i < bots.length; i++){
-      println(bots[i].fitness);
+  if(finished){
+    for (int i = 0; i < bots.length; i++){
+      for (int j = 0; j < bots[i].fitness; j++){
+        matingPool.add(bots[i]);
+      }
     }
-    frameRate(0);
+    float[] newDna = new float[100];
+    Bot parent1 = matingPool.get(floor(random(matingPool.size())));
+    Bot parent2 = matingPool.get(floor(random(matingPool.size())));
+    newDna = parent1.DNA;
+    int splitpoint = floor(random(100));
+    for(int i = 0; i < splitpoint; i++){
+      newDna[i] = parent2.DNA[i];
+    }
+    for(int i = 0; i < bots.length; i++){
+      bots[i].newBot(newDna);
+      println(bots[i].collided);
+    }
+    matingPool.clear();
+    finished = false;
   }
 }
