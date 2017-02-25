@@ -12,16 +12,14 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class InsertionSort extends PApplet {
+public class BogoSort extends PApplet {
 
 int[] items;
 int scl;
-boolean done = false;
-int i = 1;
 
 public void setup(){
   
-  items = new int[600];
+  items = new int[6];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){
     items[i] = items.length - i;
@@ -35,18 +33,15 @@ public void draw(){
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  int j = i;
-  while(j> 0 && items[j - 1] > items[j]){
-    swap(items, j, j - 1);
-    j = j - 1;
-  }
-  if(i < items.length - 1){
-    i++;
-  }else{
-    fill(0, 255, 0);
-  }
-}
 
+  //ALGORITHM
+  if(!(inOrder(items))){
+    shuffle(items);
+  }else{
+    noLoop();
+  }
+
+}
 
 public void swap(int[] array, int a, int b){
   int temp = array[a];
@@ -59,9 +54,19 @@ public void shuffle(int[] array){
     swap(array, i, floor(random(array.length - 1)));
   }
 }
+public boolean inOrder(int[] array){
+  boolean ordered = true;
+  for(int i = 0; i < array.length - 1; i++){
+    if(!(array[i] < array[i + 1])){
+      ordered = false;
+    }
+  }
+  return ordered;
+
+}
   public void settings() {  size(1200, 800); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "InsertionSort" };
+    String[] appletArgs = new String[] { "BogoSort" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

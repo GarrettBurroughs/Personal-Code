@@ -12,12 +12,10 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class InsertionSort extends PApplet {
+public class QuickSort extends PApplet {
 
 int[] items;
 int scl;
-boolean done = false;
-int i = 1;
 
 public void setup(){
   
@@ -35,19 +33,16 @@ public void draw(){
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  int j = i;
-  while(j> 0 && items[j - 1] > items[j]){
-    swap(items, j, j - 1);
-    j = j - 1;
-  }
-  if(i < items.length - 1){
-    i++;
-  }else{
-    fill(0, 255, 0);
+  quicksort(items, 1, items.length);
+  println("done");
+}
+public void quicksort(int[] array, int hi, int lo){
+  if(lo < hi){
+    int p = partition(array, hi, lo);
+    quicksort(array, lo, p - 1);
+    quicksort(array, p + 1, hi);
   }
 }
-
-
 public void swap(int[] array, int a, int b){
   int temp = array[a];
   array[a] = array[b];
@@ -59,9 +54,22 @@ public void shuffle(int[] array){
     swap(array, i, floor(random(array.length - 1)));
   }
 }
+
+public int partition(int[] array, int lo, int hi){
+  int pivot = array[hi];
+  int i = lo - 1;
+  for(int j = lo; j < hi - 1; j++){
+    if (array[j] <= pivot){
+      i = i + 1;
+      swap(array, i, j);
+    }
+  }
+  swap(array, i + 1, hi);
+  return i + 1;
+}
   public void settings() {  size(1200, 800); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "InsertionSort" };
+    String[] appletArgs = new String[] { "QuickSort" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

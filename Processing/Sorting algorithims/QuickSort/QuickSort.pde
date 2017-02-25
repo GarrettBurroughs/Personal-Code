@@ -1,7 +1,5 @@
 int[] items;
 int scl;
-boolean done = false;
-int i = 1;
 
 void setup(){
   size(1200, 800);
@@ -19,19 +17,16 @@ void draw(){
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  int j = i;
-  while(j> 0 && items[j - 1] > items[j]){
-    swap(items, j, j - 1);
-    j = j - 1;
-  }
-  if(i < items.length - 1){
-    i++;
-  }else{
-    fill(0, 255, 0);
+  quicksort(items, 1, items.length);
+  println("done");
+}
+void quicksort(int[] array, int hi, int lo){
+  if(lo < hi){
+    int p = partition(array, hi, lo);
+    quicksort(array, lo, p - 1);
+    quicksort(array, p + 1, hi);
   }
 }
-
-
 void swap(int[] array, int a, int b){
   int temp = array[a];
   array[a] = array[b];
@@ -42,4 +37,17 @@ void shuffle(int[] array){
   for(int i = 0; i < array.length; i++){
     swap(array, i, floor(random(array.length - 1)));
   }
+}
+
+int partition(int[] array, int lo, int hi){
+  int pivot = array[hi];
+  int i = lo - 1;
+  for(int j = lo; j < hi - 1; j++){
+    if (array[j] <= pivot){
+      i = i + 1;
+      swap(array, i, j);
+    }
+  }
+  swap(array, i + 1, hi);
+  return i + 1;
 }

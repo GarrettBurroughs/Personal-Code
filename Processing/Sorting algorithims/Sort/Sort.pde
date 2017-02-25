@@ -1,7 +1,8 @@
 int[] items;
 int scl;
+int currentHi;
+int currentLo;
 boolean done = false;
-int i = 1;
 
 void setup(){
   size(1200, 800);
@@ -11,26 +12,37 @@ void setup(){
     items[i] = items.length - i;
   }
   shuffle(items);
+  currentHi = items.length - 1;
+  currentLo = 0;
+  frameRate(60);
 }
 
 void draw(){
   noStroke();
+  int max = currentHi;
+  int min = currentLo;
   background(0);
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  int j = i;
-  while(j> 0 && items[j - 1] > items[j]){
-    swap(items, j, j - 1);
-    j = j - 1;
+  for(int i = currentLo; i < currentHi; i++){
+    if(items[i] > items[max]){
+      max = i;
+    }else if(items[i] < items[min]){
+      min = i;
+    }
   }
-  if(i < items.length - 1){
-    i++;
+  swap(items, currentHi, max);
+  swap(items, currentLo, min);
+  if(currentHi > 1 && currentLo < items.length && currentHi > currentLo){
+    currentHi = currentHi - 1;
+    currentLo = currentLo + 1;
   }else{
+    done = true;
     fill(0, 255, 0);
   }
-}
 
+}
 
 void swap(int[] array, int a, int b){
   int temp = array[a];

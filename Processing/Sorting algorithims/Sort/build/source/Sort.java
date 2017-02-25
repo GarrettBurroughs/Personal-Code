@@ -12,12 +12,13 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class InsertionSort extends PApplet {
+public class Sort extends PApplet {
 
 int[] items;
 int scl;
+int currentHi;
+int currentLo;
 boolean done = false;
-int i = 1;
 
 public void setup(){
   
@@ -27,26 +28,37 @@ public void setup(){
     items[i] = items.length - i;
   }
   shuffle(items);
+  currentHi = items.length - 1;
+  currentLo = 0;
+  frameRate(60);
 }
 
 public void draw(){
   noStroke();
+  int max = currentHi;
+  int min = currentLo;
   background(0);
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  int j = i;
-  while(j> 0 && items[j - 1] > items[j]){
-    swap(items, j, j - 1);
-    j = j - 1;
+  for(int i = currentLo; i < currentHi; i++){
+    if(items[i] > items[max]){
+      max = i;
+    }else if(items[i] < items[min]){
+      min = i;
+    }
   }
-  if(i < items.length - 1){
-    i++;
+  swap(items, currentHi, max);
+  swap(items, currentLo, min);
+  if(currentHi > 1 && currentLo < items.length && currentHi > currentLo){
+    currentHi = currentHi - 1;
+    currentLo = currentLo + 1;
   }else{
+    done = true;
     fill(0, 255, 0);
   }
-}
 
+}
 
 public void swap(int[] array, int a, int b){
   int temp = array[a];
@@ -61,7 +73,7 @@ public void shuffle(int[] array){
 }
   public void settings() {  size(1200, 800); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "InsertionSort" };
+    String[] appletArgs = new String[] { "Sort" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {

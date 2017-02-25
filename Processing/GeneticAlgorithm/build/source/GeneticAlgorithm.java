@@ -22,7 +22,7 @@ ArrayList<Bot> matingPool = new ArrayList<Bot>();
 public void setup(){
   
   finished = false;
-  bots = new Bot[10];
+  bots = new Bot[100];
   obstacles = new Obstacle[10];
 
   for (int i = 0; i < bots.length; i++){
@@ -79,8 +79,6 @@ public void draw(){
     }
     matingPool.clear();
     finished = false;
-    println("Restarting");
-    println(finished);
   }
 }
 class Bot{

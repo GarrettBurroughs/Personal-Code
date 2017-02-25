@@ -1,11 +1,9 @@
 int[] items;
 int scl;
-boolean done = false;
-int i = 1;
 
 void setup(){
   size(1200, 800);
-  items = new int[600];
+  items = new int[6];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){
     items[i] = items.length - i;
@@ -19,18 +17,15 @@ void draw(){
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  int j = i;
-  while(j> 0 && items[j - 1] > items[j]){
-    swap(items, j, j - 1);
-    j = j - 1;
-  }
-  if(i < items.length - 1){
-    i++;
-  }else{
-    fill(0, 255, 0);
-  }
-}
 
+  //ALGORITHM
+  if(!(inOrder(items))){
+    shuffle(items);
+  }else{
+    noLoop();
+  }
+
+}
 
 void swap(int[] array, int a, int b){
   int temp = array[a];
@@ -42,4 +37,14 @@ void shuffle(int[] array){
   for(int i = 0; i < array.length; i++){
     swap(array, i, floor(random(array.length - 1)));
   }
+}
+boolean inOrder(int[] array){
+  boolean ordered = true;
+  for(int i = 0; i < array.length - 1; i++){
+    if(!(array[i] < array[i + 1])){
+      ordered = false;
+    }
+  }
+  return ordered;
+
 }

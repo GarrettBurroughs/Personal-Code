@@ -6,7 +6,7 @@ ArrayList<Bot> matingPool = new ArrayList<Bot>();
 void setup(){
   size(1280,720);
   finished = false;
-  bots = new Bot[10];
+  bots = new Bot[100];
   obstacles = new Obstacle[10];
 
   for (int i = 0; i < bots.length; i++){
@@ -49,7 +49,7 @@ void draw(){
         matingPool.add(bots[i]);
       }
     }
-    float[] newDna = new float[100];
+    float[][] newDna = new float[100][2];
     Bot parent1 = matingPool.get(floor(random(matingPool.size())));
     Bot parent2 = matingPool.get(floor(random(matingPool.size())));
     newDna = parent1.DNA;
