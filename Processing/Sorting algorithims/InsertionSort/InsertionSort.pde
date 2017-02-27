@@ -10,7 +10,7 @@ void setup(){
   for(int i = 1; i < items.length; i++){
     items[i] = items.length - i;
   }
-  shuffle(items);
+  //shuffle(items);
 }
 
 void draw(){

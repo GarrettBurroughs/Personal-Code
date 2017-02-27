@@ -23,7 +23,7 @@ public void setup(){
   items = new int[600];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){
-    items[i] = items.length - i;
+    items[i] = floor(random(items.length));
   }
   shuffle(items);
 }

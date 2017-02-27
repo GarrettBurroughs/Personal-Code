@@ -1,9 +1,7 @@
 int[] items;
 int scl;
-boolean done = false;
-int gap;
-float shrink = 1.2f;
-boolean sorted = false;
+int current;
+int[] gaps = {701, 301, 132, 57, 23, 10, 4, 1};
 
 void setup(){
   size(1200, 800);
@@ -13,7 +11,7 @@ void setup(){
     items[i] = items.length - i;
   }
   shuffle(items);
-  gap = items.length;
+  current = items.length - 1;
   frameRate(60);
 }
 
@@ -23,23 +21,11 @@ void draw(){
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  if(!sorted){
-    gap = floor(gap/shrink);
-    if(gap > 1){
-      sorted = false;
-    }else{
-      gap = 1;
-      sorted = true;
-    }
-    for(int i = 0; i + gap < items.length; i++){
-      if(items[i] > items[i + gap]){
-        swap(items, i, i + gap);
-        sorted = false;
-      }
-    }
+  for(int i = 1; i < gaps; i++){
+    for(int j = gaps[i], i < items.lenght)
   }
-}
 
+}
 
 void swap(int[] array, int a, int b){
   int temp = array[a];

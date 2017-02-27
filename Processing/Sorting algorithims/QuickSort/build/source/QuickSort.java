@@ -1,16 +1,16 @@
 import processing.core.*; 
-import processing.data.*; 
-import processing.event.*; 
-import processing.opengl.*; 
+import processing.data.*;
+import processing.event.*;
+import processing.opengl.*;
 
-import java.util.HashMap; 
-import java.util.ArrayList; 
-import java.io.File; 
-import java.io.BufferedReader; 
-import java.io.PrintWriter; 
-import java.io.InputStream; 
-import java.io.OutputStream; 
-import java.io.IOException; 
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.io.File;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.IOException;
 
 public class QuickSort extends PApplet {
 
@@ -18,7 +18,7 @@ int[] items;
 int scl;
 
 public void setup(){
-  
+
   items = new int[600];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){

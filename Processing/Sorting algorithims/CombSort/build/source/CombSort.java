@@ -12,21 +12,25 @@ import java.io.InputStream;
 import java.io.OutputStream; 
 import java.io.IOException; 
 
-public class InsertionSort extends PApplet {
+public class CombSort extends PApplet {
 
 int[] items;
 int scl;
 boolean done = false;
-int i = 1;
+int gap;
+float shrink = 1.5f;
+boolean sorted = false;
 
 public void setup(){
   
   items = new int[600];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){
-    items[i] = floor(random(items.length));
+    items[i] = items.length - i;
   }
-  //shuffle(items);
+  shuffle(items);
+  gap = items.length;
+  frameRate(60);
 }
 
 public void draw(){
@@ -35,15 +39,20 @@ public void draw(){
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  int j = i;
-  while(j> 0 && items[j - 1] > items[j]){
-    swap(items, j, j - 1);
-    j = j - 1;
-  }
-  if(i < items.length - 1){
-    i++;
-  }else{
-    fill(0, 255, 0);
+  if(!sorted){
+    gap = floor(gap/shrink);
+    if(gap > 1){
+      sorted = false;
+    }else{
+      gap = 1;
+      sorted = true;
+    }
+    for(int i = 0; i + gap < items.length; i++){
+      if(items[i] > items[i + gap]){
+        swap(items, i, i + gap);
+        sorted = false;
+      }
+    }
   }
 }
 
@@ -61,7 +70,7 @@ public void shuffle(int[] array){
 }
   public void settings() {  size(1200, 800); }
   static public void main(String[] passedArgs) {
-    String[] appletArgs = new String[] { "InsertionSort" };
+    String[] appletArgs = new String[] { "CombSort" };
     if (passedArgs != null) {
       PApplet.main(concat(appletArgs, passedArgs));
     } else {
