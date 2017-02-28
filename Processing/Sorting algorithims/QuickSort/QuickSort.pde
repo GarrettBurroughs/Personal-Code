@@ -22,7 +22,7 @@ void draw(){
 }
 void quicksort(int[] array, int hi, int lo){
   if(lo < hi){
-    int p = partition(array, hi, lo);
+    int p = partition(array, lo, hi);
     quicksort(array, lo, p - 1);
     quicksort(array, p + 1, hi);
   }
