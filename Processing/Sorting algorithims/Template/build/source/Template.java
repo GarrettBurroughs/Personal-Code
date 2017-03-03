@@ -17,10 +17,8 @@ public class Template extends PApplet {
 int[] items;
 int scl;
 int current;
-boolean sorted = false;
-Object lock = new Object();
-SortThread sort = new SortThread();
-int delay = 1;
+boolean sorted = false; //Keeps tack of weather or not the list is sorted
+int delay = 5; //delay in ms for each item to be sorted
 
 public void setup(){
   
@@ -30,18 +28,22 @@ public void setup(){
     items[i] = items.length - i;
   }
   shuffle(items);
-  current = items.length - 1;
   frameRate(60);
-  sort.start();
+  thread("sort");
+  current = items.length - 1;
 }
 
 public void draw(){
   noStroke();
   background(0);
-  synchronized(lock){
-    for(int i = 1; i < items.length; i++){
-      rect((i) * scl, height - items[i], scl, items[i]);
-    }
+  if(isSorted(items)){
+    fill(0, 255, 0);
+  }else{
+    fill(255);
+  }
+  for(int i = 1; i < items.length; i++){
+    float itemHeight = map(items[i], 1, items.length, 1, height);
+    rect((i) * scl, height - itemHeight, scl, itemHeight);
   }
 }
 
@@ -52,13 +54,12 @@ public void swap(int[] array, int a, int b){
 }
 
 public boolean isSorted(int[] array){
-  boolean sorted = true;
   for(int i = 0; i < items.length - 1; i++){
     if(items[i] > items[i + 1]){
-      sorted = false;
+      return false;
     }
   }
-  return sorted;
+  return true;
 }
 
 public void shuffle(int[] array){
@@ -66,30 +67,31 @@ public void shuffle(int[] array){
     swap(array, i, floor(random(array.length - 1)));
   }
 }
-class SortThread extends Thread{
-  public void run(){
-    boolean sorted = false;
-    while(!sorted){
-      synchronized(lock){
-        // Sorting Code Goes Here
-        int max = current;
-        for(int i = 0; i < current; i++){
-          if(items[i] > items[max]){
-            max = i;
-          }
-        }
-        swap(items, current, max);
-        if(current > 1){
-          current = current - 1;
-        }else{
-          fill(0, 255, 0);
-        }
-        int mil = millis();
-        while(millis() < mil + delay){};
+
+public void sort(){
+  boolean sorted = false;
+  while(!sorted){
+    //Sorting Code Goes Here
+    int max = current;
+    for(int i = 0; i < current; i++){
+      if(items[i] > items[max]){
+        max = i;
       }
-      sorted = isSorted(items);
     }
+    swap(items, current, max);
+    if(current > 1){
+      current = current - 1;
+    }else{
+      fill(0, 255, 0);
+    }
+    sorted = isSorted(items);
+    delay(delay);
   }
+}
+
+public void delay(int delay){
+  int mills = millis();
+  while(millis() < mills + delay){};
 }
   public void settings() {  size(1200, 800); }
   static public void main(String[] passedArgs) {

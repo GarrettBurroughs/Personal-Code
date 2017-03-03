@@ -1,5 +1,6 @@
 int[] items;
 int scl;
+boolean sorted = false;
 
 void setup(){
   size(1200, 800);
@@ -17,10 +18,12 @@ void draw(){
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  quicksort(items, 1, items.length);
+  if(!sorted){
+    quicksort(items, 1, items.length-1);
+  }
   println("done");
 }
-void quicksort(int[] array, int hi, int lo){
+void quicksort(int[] array, int lo, int hi){
   if(lo < hi){
     int p = partition(array, lo, hi);
     quicksort(array, lo, p - 1);

@@ -1,24 +1,25 @@
 import processing.core.*; 
-import processing.data.*;
-import processing.event.*;
-import processing.opengl.*;
+import processing.data.*; 
+import processing.event.*; 
+import processing.opengl.*; 
 
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.io.File;
-import java.io.BufferedReader;
-import java.io.PrintWriter;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.IOException;
+import java.util.HashMap; 
+import java.util.ArrayList; 
+import java.io.File; 
+import java.io.BufferedReader; 
+import java.io.PrintWriter; 
+import java.io.InputStream; 
+import java.io.OutputStream; 
+import java.io.IOException; 
 
 public class QuickSort extends PApplet {
 
 int[] items;
 int scl;
+boolean sorted = false;
 
 public void setup(){
-
+  
   items = new int[600];
   scl = width / items.length;
   for(int i = 1; i < items.length; i++){
@@ -33,12 +34,14 @@ public void draw(){
   for(int i = 1; i < items.length; i++){
     rect((i) * scl, height - items[i], scl, items[i]);
   }
-  quicksort(items, 1, items.length);
+  if(!sorted){
+    quicksort(items, 1, items.length-1);
+  }
   println("done");
 }
-public void quicksort(int[] array, int hi, int lo){
+public void quicksort(int[] array, int lo, int hi){
   if(lo < hi){
-    int p = partition(array, hi, lo);
+    int p = partition(array, lo, hi);
     quicksort(array, lo, p - 1);
     quicksort(array, p + 1, hi);
   }
