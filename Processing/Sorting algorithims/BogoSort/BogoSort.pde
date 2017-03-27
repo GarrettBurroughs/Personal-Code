@@ -13,8 +13,8 @@ int[] items; //The array in which all of the elements to be sorted are stored
 int scl; //A dynamic variable that determines the vertical width of the elements in the visualization
 boolean sorted = false; //Keeps tack of weather or not the list is sorted
 int delay; //delay in ms for each item to be sorted
-int fps = 10; //A variable to set the frames per second and set the delay for the sorting so that an element is swapped(sorted) every frame.
-int size = 4;
+int fps = 60; //A variable to set the frames per second and set the delay for the sorting so that an element is swapped(sorted) every frame.
+int size = 30;
 
 //Code to be run one time at the begging of the sketch
 void setup(){
