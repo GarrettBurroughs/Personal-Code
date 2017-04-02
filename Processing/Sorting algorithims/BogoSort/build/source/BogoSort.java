@@ -15,22 +15,22 @@ import java.io.IOException;
 public class BogoSort extends PApplet {
 
 /*
-* This is a template for creating, testing and visuializing different sorting algorithms
-* The elements to be sorted are in the "items" array, these items will be shuffled at the beginning if the program
-* The actual code that handles the sorting is held in the "sort" method which is run ussing a processing thread
+* This Processing Sketch is demonstrating and visualizing Bogo Sort
+* BogoSort is an esteroic sorting algorothim that checks if the list is sorted and if it is not it randomizes it hoping that it will evenually get the right order
 *
-* In this template there is an example of using it for selection sort the code is not necissary for other sorting algorithms and can be deleted
+*Source: https://en.wikipedia.org/wiki/Bogosort
+*
 * Made by Garrett Burroughs 3/1/17
 */
 
 
 //-----GLOBAL VARIABLES----//
-int[] items; //THe array in which all of the elements to be sorted are stored
+int[] items; //The array in which all of the elements to be sorted are stored
 int scl; //A dynamic variable that determines the vertical width of the elements in the visualization
 boolean sorted = false; //Keeps tack of weather or not the list is sorted
 int delay; //delay in ms for each item to be sorted
-int fps = 10; //A variable to set the frames per second and set the delay for the sorting so that an element is swapped(sorted) every frame.
-int size = 4;
+int fps = 60; //A variable to set the frames per second and set the delay for the sorting so that an element is swapped(sorted) every frame.
+int size = 12;
 
 //Code to be run one time at the begging of the sketch
 public void setup(){
@@ -41,7 +41,7 @@ public void setup(){
     items[i] = items.length - i;
   }
   shuffle(items);
-  delay = 1000/fps;
+  delay = 0;
   frameRate(fps);
   thread("sort"); //starting the sorting algorithm
 
@@ -50,7 +50,7 @@ public void setup(){
 
 //Animation loop: code to be run repeatedly for animation
 public void draw(){
-  noStroke();
+  //noStroke();
   background(0);
   if(isSorted(items)){
     fill(0, 255, 0);
@@ -68,7 +68,6 @@ public void sort(){
   boolean sorted = false;
 
   //Variables needed for the sorting algorithm
-  int current = items.length - 1;
 
 
   while(!sorted){
