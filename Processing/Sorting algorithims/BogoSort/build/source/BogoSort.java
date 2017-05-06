@@ -30,7 +30,11 @@ int scl; //A dynamic variable that determines the vertical width of the elements
 boolean sorted = false; //Keeps tack of weather or not the list is sorted
 int delay; //delay in ms for each item to be sorted
 int fps = 60; //A variable to set the frames per second and set the delay for the sorting so that an element is swapped(sorted) every frame.
+<<<<<<< HEAD
+int size = 12;
+=======
 int size = 30;
+>>>>>>> 057452b1fd7be428a7c85a1240186b268ee84c12
 
 //Code to be run one time at the begging of the sketch
 public void setup(){
@@ -41,7 +45,7 @@ public void setup(){
     items[i] = items.length - i;
   }
   shuffle(items);
-  delay = 1000/fps;
+  delay = 0;
   frameRate(fps);
   thread("sort"); //starting the sorting algorithm
 
@@ -50,7 +54,7 @@ public void setup(){
 
 //Animation loop: code to be run repeatedly for animation
 public void draw(){
-  noStroke();
+  //noStroke();
   background(0);
   if(isSorted(items)){
     fill(0, 255, 0);
