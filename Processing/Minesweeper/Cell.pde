@@ -39,9 +39,13 @@ class Cell{
   }
 
   boolean click(){
-    clicked = true;
-    if(mine){
-      return true;
+    if(!flagged){
+      clicked = true;
+      if(mine){
+        return true;
+      }else{
+        return false;
+      }
     }else{
       return false;
     }

@@ -115,6 +115,7 @@ void draw(){
     //println(startTime);
     //println(endTime);
     //println(endTime - startTime);
+    textSize(20);
     text("Congratulations you beat Minesweeper in " + str(endTime - startTime) + " Seconds \n press \'R\' to restart", height/2, width/2, - 30);
     break;
   case 5:
@@ -129,9 +130,11 @@ void mouseClicked(){
   int x = round(mouseX/cellSize), y = round(mouseY/cellSize);
   if(state == 2){
     if(mouseButton == LEFT && !(cells[x][y].flagged)){
-
       if(cells[x][y].value == 0){
         clearSurrounding(x,y);
+      }
+      if(keyPressed && keyCode == SHIFT){
+        clear9(x,y);
       }
       if(cells[x][y].click()){
         gameOver();
@@ -328,6 +331,57 @@ void showMines(){
   for(Cell[] row : cells){
     for(Cell cell : row){
       cell.showMine();
+    }
+  }
+}
+
+
+void clear9(int a, int b){
+  if(!(a <= 0 || b <= 0)){
+      if(cells[a-1][b-1].click()){
+        gameOver();
+      }
+    }
+
+  if(!(a == 0)){
+    if(cells[a-1][b].click()){
+      gameOver();
+    }
+  }
+
+  if(!((a == 0) || (b == floor(width/cellSize) - 1))){
+    if(cells[a-1][b+1].click()){
+      gameOver();
+    }
+  }
+
+  if(!(b == 0)){
+    if(cells[a][b-1].click()){
+      gameOver();
+    }
+  }
+
+  if(!(b == floor(width/cellSize) - 1)){
+    if(cells[a][b+1].click()){
+      gameOver();
+    }
+  }
+
+  if(!((b == 0) || (a == floor(height/cellSize) - 1))){
+    if(cells[a+1][b-1].click()){
+
+    }
+  }
+
+  if(!(a == floor(height/cellSize) - 1)){
+    if(cells[a+1][b].click()){
+      gameOver();
+    }
+  }
+
+  if(!(a == floor(height/cellSize) - 1 || b == floor(width/cellSize) - 1)){
+    if(cells[a+1][b+1].click()){
+      gameOver();
     }
   }
 }
