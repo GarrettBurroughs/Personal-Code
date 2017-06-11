@@ -6,6 +6,7 @@ class Cell{
   boolean clicked = false;
   int value = 0;
   color c;
+  boolean flagged = false;
 
   public Cell(int x, int y, boolean mine, boolean uncovered, float tileSize){
     this.x = x;
@@ -19,18 +20,23 @@ class Cell{
   void render(){
     if(clicked){
       fill(255);
+    }else if(flagged){
+      fill(255, 0, 0);
     }else{
       fill(170);
     }
     rect(x, y, tileSize, tileSize);
-    if(clicked){
+    if(clicked && !mine){
       textSize(tileSize);
       fill(0);
-      text(value, x, y + tileSize);
+      if(value != 0){
+        text(value, x, y + tileSize);
+      }
+    }else if(clicked){
+      fill(0);
+      ellipse(x+tileSize/2,y + tileSize/2,tileSize - 4,tileSize - 4);
     }
-
   }
-
 
   boolean click(){
     clicked = true;
@@ -38,6 +44,14 @@ class Cell{
       return true;
     }else{
       return false;
+    }
+  }
+  void showMine(){
+    if(mine){
+      fill(255);
+      rect(x, y, tileSize, tileSize);
+      fill(255, 0, 0);
+      ellipse(x+tileSize/2,y + tileSize/2,tileSize - 4,tileSize - 4);
     }
   }
 }
