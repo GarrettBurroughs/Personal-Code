@@ -35,7 +35,7 @@ void startGame(){
         b = floor(random(floor(width/cellSize)));
       }
     }
-    startTime = millis()/1000;
+
   }
 
     for(int i = 0; i < cells.length; i++){
@@ -43,6 +43,8 @@ void startGame(){
         setValue(i,j);
       }
     }
+    startTime = millis()/1000;
+    println("setStartTime");
 }
 
 void draw(){
@@ -80,8 +82,9 @@ void draw(){
       rect(width/2, height/2 + 100, 70, 35);
       rectMode(CORNER);
       if(mousePressed && mouseX > width/2 - 35 && mouseX < width/2 + 35 && mouseY > height/2 + 100 - 35/2 && mouseY < height/2 + 100 + 35/2){
-        startGame();
+
         delay(2000);
+        startGame();
         state = 2;
       }
       break;
@@ -109,11 +112,15 @@ void draw(){
     background(255);
     fill(0, 255, 0);
     textAlign(CENTER,CENTER);
+    //println(startTime);
+    //println(endTime);
+    //println(endTime - startTime);
     text("Congratulations you beat Minesweeper in " + str(endTime - startTime) + " Seconds \n press \'R\' to restart", height/2, width/2, - 30);
     break;
   case 5:
-    delay(3000);
-    state = 3;
+    if(mousePressed){
+      state = 3;
+    }
   }
 }
 
@@ -121,7 +128,7 @@ void draw(){
 void mouseClicked(){
   int x = round(mouseX/cellSize), y = round(mouseY/cellSize);
   if(state == 2){
-    if(mouseButton == LEFT){
+    if(mouseButton == LEFT && !(cells[x][y].flagged)){
 
       if(cells[x][y].value == 0){
         clearSurrounding(x,y);
@@ -130,7 +137,7 @@ void mouseClicked(){
         gameOver();
       }
     }else if(mouseButton == RIGHT){
-      cells[x][y].flagged = true;
+      cells[x][y].flagged = !(cells[x][y].flagged);
     }
   }
 }

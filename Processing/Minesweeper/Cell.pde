@@ -47,7 +47,17 @@ class Cell{
     }
   }
   void showMine(){
-    if(mine){
+    if(mine && flagged){
+      fill(0);
+      rect(x, y, tileSize, tileSize);
+      fill(255, 0, 0);
+      ellipse(x+tileSize/2,y + tileSize/2,tileSize - 4,tileSize - 4);
+    }
+    if(flagged && !mine){
+      fill(0);
+      rect(x, y, tileSize, tileSize);
+    }
+    if(mine && !flagged){
       fill(255);
       rect(x, y, tileSize, tileSize);
       fill(255, 0, 0);
