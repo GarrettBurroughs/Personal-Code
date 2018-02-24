@@ -2,7 +2,7 @@
 
 /*
 * This Processing Sketch is demonstrating and visualizing Bogo Sort
-* BogoSort is an esteroic sorting algorothim that checks if the list is sorted and if it is not it randomizes it hoping that it will evenually get the right order
+* BogoSort is an esoteroic sorting algorothim that checks if the list is sorted and if it is not it randomizes it hoping that it will evenually get the right order
 *
 *Source: https://en.wikipedia.org/wiki/Bogosort
 *
